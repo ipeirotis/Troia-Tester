@@ -75,18 +75,20 @@
   </build>
 
   <reporting>
-    <plugin>
-      <groupId>org.codehaus.mojo</groupId>
-      <artifactId>findbugs-maven-plugin</artifactId>
-      <configuration>
-	<xmlOutput>true</xmlOutput>
-	<findbugsXmlOutput>true</findbugsXmlOutput>
-	<findbugsXmlWithMessages>true</findbugsXmlWithMessages>
-	<threshold>Low</threshold>
-	<effort>Max</effort>
-	<debug>false</debug>
-	<relaxed>false</relaxed>                       
-      </configuration>
-    </plugin>
+    <plugins>
+      <plugin>
+	<groupId>org.codehaus.mojo</groupId>
+	<artifactId>findbugs-maven-plugin</artifactId>
+	<configuration>
+	  <xmlOutput>true</xmlOutput>
+	  <findbugsXmlOutput>true</findbugsXmlOutput>
+	  <findbugsXmlWithMessages>true</findbugsXmlWithMessages>
+	  <threshold>Low</threshold>
+	  <effort>Max</effort>
+	  <debug>false</debug>
+	  <relaxed>false</relaxed>                       
+	</configuration>
+      </plugin>
+    </plugins>
   </reporting>
 </project>
