@@ -21,6 +21,14 @@
       <artifactId>junit</artifactId>
       <version>4.10</version>
     </dependency>
+    <!-- Troia client library -->
+    <dependency>
+      <groupId>TroiaJavaClient</groupId>
+      <artifactId>TroiaJavaClient</artifactId>
+      <version>1.0</version>
+      <scope>system</scope>
+      <systemPath>${PWD}/libs/TroiaJavaClient-1.0.jar</systemPath>
+    </dependency>
   </dependencies>
   <name>Test data generator</name>
   <build>
