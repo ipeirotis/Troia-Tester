@@ -26,8 +26,6 @@
       <groupId>TroiaJavaClient</groupId>
       <artifactId>TroiaJavaClient</artifactId>
       <version>1.0</version>
-      <scope>system</scope>
-      <systemPath>${PWD}/libs/TroiaJavaClient-1.0.jar</systemPath>
     </dependency>
   </dependencies>
   <name>Test data generator</name>
