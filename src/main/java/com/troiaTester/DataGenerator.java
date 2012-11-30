@@ -200,8 +200,8 @@ public class DataGenerator {
 	 * @return Collection of artifical workers
 	 */
 	public Collection<ArtificialWorker> generateArtificialWorkers(
-		int workerCount, Collection<String> categories, double minQuality,
-		double maxQuality) {
+			int workerCount, Collection<String> categories, double minQuality,
+			double maxQuality) {
 		Collection<ArtificialWorker> workers = new ArrayList<ArtificialWorker>();
 		if (minQuality > maxQuality)
 			minQuality = 0;
@@ -227,11 +227,12 @@ public class DataGenerator {
 	 * @return Collection of worker assigned labels
 	 */
 	public Collection<Label> generateLabels(
-		Collection<ArtificialWorker> workers, TroiaObjectCollection objects,
-		int workersPerObject) {
+			Collection<ArtificialWorker> workers, TroiaObjectCollection objects,
+			int workersPerObject) {
 		Collection<Label> labels = new ArrayList<Label>();
-		Map<ArtificialWorker, NoisedLabelGenerator> generators = NoisedLabelGeneratorFactory
-				.getInstance().getRouletteGeneratorsForWorkers(workers);
+		Map<ArtificialWorker, NoisedLabelGenerator> generators =
+			NoisedLabelGeneratorFactory.getInstance()
+			.getRouletteGeneratorsForWorkers(workers);
 		Iterator<ArtificialWorker> workersIterator = workers.iterator();
 		for (String object : objects) {
 			String correctCat = objects.getCategory(object);
@@ -260,7 +261,7 @@ public class DataGenerator {
 	 * @return Collection of gold labels.
 	 */
 	public Collection<GoldLabel> generateGoldLabels(
-		TroiaObjectCollection objects, double goldCoverage) {
+			TroiaObjectCollection objects, double goldCoverage) {
 		int goldCount = (int) (objects.size() * goldCoverage);
 		Collection<GoldLabel> goldLabels = new ArrayList<GoldLabel>();
 		Iterator<String> objectsIterator = objects.iterator();
@@ -277,26 +278,55 @@ public class DataGenerator {
 		return goldLabels;
 	}
 
+	/**
+	 * Computes worker summary.
+	 *
+	 * @param workers
+	 *
+	 * @param labels
+	 *
+	 * @param categories
+	 *
+	 * @return
+	 * 	a collection of ArtificialWorkersStatistics
+	 */
+	public Collection<ArtificialWorkerStats> generateArtificialWorkersStats(
+			Collection<ArtificialWorker> workers,
+			Collection<Label> labels, Collection<Category> categories) {
+		Collection<ArtificialWorkerStats> statistics = new ArrayList<ArtificialWorkerStats>(workers.size());
+		for (ArtificialWorker worker : workers) {
+			statistics.add(new ArtificialWorkerStats(worker, labels, categories));
+		}
+		return statistics;
+	}
+
 	public Data generateTestData(String requestId, int objectCount,
-								 int categoryCount, int workerCount, double minQuality,
-								 double maxQuality, double goldRatio, int workersPerObject) {
+			int categoryCount, int workerCount, double minQuality,
+			double maxQuality, double goldRatio,
+			int workersPerObject) {
 		Data data = new Data();
-		Collection<String> categoryNames = this
-										   .generateCategoryNames(categoryCount);
+		Collection<String> categoryNames = this.
+			generateCategoryNames(categoryCount);
 		Collection<Category> categories = CategoryFactory.getInstance()
-										  .createCategories(categoryNames);
-		TroiaObjectCollection objects = this.generateTestObjects(objectCount,
-										categoryNames);
-		Collection<MisclassificationCost> misclassificationCost = MisclassificationCostFactory
-				.getInstance().getMisclassificationCosts(categories);
-		Collection<GoldLabel> goldLabels = this.generateGoldLabels(objects,
-										   goldRatio);
+			.createCategories(categoryNames);
+		TroiaObjectCollection objects = this.generateTestObjects(
+			objectCount, categoryNames);
+		Collection<MisclassificationCost> misclassificationCost =
+			MisclassificationCostFactory.getInstance().
+			getMisclassificationCosts(categories);
+		Collection<GoldLabel> goldLabels = this.generateGoldLabels(
+			objects, goldRatio);
 		Collection<ArtificialWorker> workers = null;
+		Collection<ArtificialWorkerStats> stats = null;
 		Collection<Label> labels = null;
 		Collection<String> workerNames = null;
 		if(workerCount>0) {
-			workers = this.generateArtificialWorkers(workerCount, categoryNames, minQuality, maxQuality);
-			labels = this.generateLabels(workers, objects,workersPerObject);
+			workers = this.generateArtificialWorkers(workerCount,
+				categoryNames, minQuality, maxQuality);
+			labels = this.generateLabels(workers,
+				objects,workersPerObject);
+			stats = this.generateArtificialWorkersStats(
+				workers, labels, categories);
 			workerNames = new ArrayList<String>();
 			for (ArtificialWorker worker : workers) {
 				workerNames.add(worker.getName());
@@ -310,6 +340,7 @@ public class DataGenerator {
 		data.setRequestId(requestId);
 		data.setWorkers(workerNames);
 		data.setArtificialWorkers(workers);
+		data.setArtificialWorkersStats(stats);
 		return data;
 	}
 

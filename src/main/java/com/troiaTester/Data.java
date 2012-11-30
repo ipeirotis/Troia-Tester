@@ -137,7 +137,19 @@ public class Data {
 		this.artificialWorkers = artificialWorkers;
 	}
 
+	/**
+	 * @return the artificialWorkersStats
+	 */
+	public Collection<ArtificialWorkerStats> getArtificialWorkersStats() {
+		return artificialWorkersStats;
+	}
 
+	/**
+	 * @param artificialWorkersStats the artificialWorkers stats to set
+	 */
+	public void setArtificialWorkersStats(Collection<ArtificialWorkerStats> artificialWorkersStats) {
+		this.artificialWorkersStats = artificialWorkersStats;
+	}
 
 
 	/**
@@ -152,7 +164,9 @@ public class Data {
 			   "labels = " + labels + ", " +
 			   "goldLabels = " + goldLabels + ", " +
 			   "misclassificationCost = " + misclassificationCost + ", " +
-			   "artificialWorkers = " + artificialWorkers + ", " + "}";
+			   "artificialWorkers = " + artificialWorkers + ", " +
+			   "artificialWorkersStats = " + artificialWorkersStats
+			+" }";
 	}
 
 	/**
@@ -191,4 +205,5 @@ public class Data {
 	Collection<MisclassificationCost> misclassificationCost;
 
 	Collection<ArtificialWorker> artificialWorkers;
+	Collection<ArtificialWorkerStats> artificialWorkersStats;
 }

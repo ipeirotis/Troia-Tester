@@ -35,9 +35,7 @@ public class ConfusionMatrix {
 
 	/**
 	 * @param matrix the matrix to set
-	 */
-	public void setMatrix(Map<String, Map<String, Double>> matrix) {
-		this.matrix = matrix;
+	 */ public void setMatrix(Map<String, Map<String, Double>> matrix) { this.matrix = matrix;
 	}
 
 	public double getMisclassificationProbability(String from,String to) {

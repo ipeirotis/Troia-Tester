@@ -42,7 +42,7 @@ public class DataManager {
 	 *             Thrown if program was unable to save objects to file
 	 */
 	public void saveTestObjectsToFile(String filename,
-									  TroiaObjectCollection objects) throws IOException {
+			TroiaObjectCollection objects) throws IOException {
 		logger.info("Saving test objects to file");
 		FileOutputStream stream = new FileOutputStream(filename);
 		Writer out = new OutputStreamWriter(stream);
@@ -93,12 +93,28 @@ public class DataManager {
 	 *             Thrown if program was unable to save workers to file
 	 */
 	public void saveArtificialWorkers(String filename,
-									  Collection<ArtificialWorker> workers) throws IOException {
+			Collection<ArtificialWorker> workers)
+			throws IOException {
 		logger.info("Saving artificial workers to file");
 		FileOutputStream stream = new FileOutputStream(filename);
 		Writer out = new OutputStreamWriter(stream);
 		Gson gson = new Gson();
 		out.write(gson.toJson(workers));
+		out.close();
+	}
+
+	public void saveArtificialWorkersStats(String filename,
+			Collection<ArtificialWorkerStats> stats)
+			throws IOException {
+		logger.info("Saving  artificial workers to file");
+		FileOutputStream stream = new FileOutputStream(filename);
+		Writer out = new OutputStreamWriter(stream);
+		for (ArtificialWorkerStats stat : stats) {
+			out.write(stat.getWorker().getName() + "\t" +
+				stat.getAccuracy() + '\t' +
+				stat.getQualityExpected() + '\t' +
+				stat.getQualityExpected() + '\n');
+		}
 		out.close();
 	}
 
@@ -239,7 +255,7 @@ public class DataManager {
 	 * @throws IOException
 	 */
 	public void saveGoldLabelsToFile(String filename,
-									 Collection<GoldLabel> labels) throws IOException {
+			Collection<GoldLabel> labels) throws IOException {
 		logger.info("Saving gold labels objects to file");
 		FileOutputStream stream = new FileOutputStream(filename);
 		Writer out = new OutputStreamWriter(stream);
@@ -258,7 +274,7 @@ public class DataManager {
 	 * @throws FileNotFoundException
 	 */
 	public Collection<GoldLabel> loadGoldLabelsFromFile(String filename)
-	throws FileNotFoundException {
+			throws FileNotFoundException {
 		logger.info("Loading gold labels from file");
 		FileInputStream stream = new FileInputStream(filename);
 		Scanner scanner = new Scanner(stream);
@@ -306,8 +322,15 @@ public class DataManager {
 	throws IOException {
 		logger.info("Saving test data");
 		if(data.getArtificialWorkers()!=null) {
-			this.saveArtificialWorkers(filename_base + ARTIFICIAL_WORKERS_TAG
-									   + FILE_EXTENSION, data.getArtificialWorkers());
+			this.saveArtificialWorkers(filename_base +
+				ARTIFICIAL_WORKERS_TAG +
+				FILE_EXTENSION, data.getArtificialWorkers());
+		}
+		if(data.getArtificialWorkersStats()!=null) {
+			this.saveArtificialWorkersStats(filename_base +
+				ARTIFICIAL_WORKERS_STATISTICS_TAG +
+				FILE_EXTENSION,
+				data.getArtificialWorkersStats());
 		}
 		if(data.getGoldLabels()!=null) {
 			this.saveGoldLabelsToFile(filename_base + GOLD_LABELS_TAG
@@ -388,6 +411,8 @@ public class DataManager {
 	}
 
 	private static final String ARTIFICIAL_WORKERS_TAG = "_aiworker";
+	private static final String ARTIFICIAL_WORKERS_STATISTICS_TAG =
+		ARTIFICIAL_WORKERS_TAG + "_statistics";
 	private static final String LABELS_TAG = "_labels";
 	private static final String GOLD_LABELS_TAG = "_goldLabels";
 	private static final String OBJECTS_TAG = "_objects";
