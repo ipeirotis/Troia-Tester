@@ -27,6 +27,13 @@
       <artifactId>TroiaJavaClient</artifactId>
       <version>1.0</version>
     </dependency>
+    <!-- Troia server library -->
+    <dependency>
+      <groupId>com.ipeirotis</groupId>
+      <artifactId>DSaS</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+      <type>war</type>
+    </dependency>
   </dependencies>
   <name>Test data generator</name>
   <build>
