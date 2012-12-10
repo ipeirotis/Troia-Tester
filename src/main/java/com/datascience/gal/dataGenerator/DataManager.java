@@ -1,4 +1,4 @@
-package java.com.datascience.gal.tester;
+package main.java.com.datascience.gal.dataGenerator;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
